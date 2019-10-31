@@ -33,3 +33,15 @@ function obToSql(ob) {
      // translate array of strings to a single comma-separated string
      return arr.toString();
 } 
+
+var orm = {
+    all: function(tableInput, cb) {
+        var qString = `SELECT * FROM ${tableInput};`;
+        connection.query(qString, function(err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        })
+    }
+}
