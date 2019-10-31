@@ -36,8 +36,8 @@ function obToSql(ob) {
 
 var orm = {
     all: function(tableInput, cb) {
-        var qString = `SELECT * FROM ${tableInput};`;
-        connection.query(qString, function(err, result) {
+        var queryString = `SELECT * FROM ${tableInput};`;
+        connection.query(queryString, function(err, result) {
             if (err) {
                 throw err;
             }
@@ -45,21 +45,37 @@ var orm = {
         });
     },
     create: function(table, cols, vals, cb) {
-        qString = `INSERT INTO ${table}`;
-        qString += ` (`;
-        qString += cols.toString();
-        qString += `) `;
-        qString += `VALUES (`;
-        qString += questionMark(vals.length);
-        qString += `) `;
+        queryString = `INSERT INTO ${table}`;
+        queryString += ` (`;
+        queryString += cols.toString();
+        queryString += `) `;
+        queryString += `VALUES (`;
+        queryString += questionMark(vals.length);
+        queryString += `) `;
 
-        console.log(qString);
+        console.log(queryString);
 
-        connection.query(qString, vals, function(err, result) {
+        connection.query(queryString, vals, function(err, result) {
             if (err) {
                 throw err;
             }
             cb(result);
         });
-    }
+    },
+    update: function(table, ojbColVals, condition, cb) {
+        var queryString = `UPDATE ${table}`;
+
+        queryString += ` SET `;
+        queryString += obToSql(ojbColVals);
+        queryString += ` WHERE `;
+        queryString += condition;
+
+        console.log(queryString);
+        connection.query(queryString, function(err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        });
+    },
 }
