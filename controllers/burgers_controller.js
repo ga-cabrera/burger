@@ -14,3 +14,14 @@ app.get('/', function(req, res) {
         res.render('index', barsObject);
     });
 });
+
+app.post('/api/burgers', function(req, res) {
+    burger.create([
+        "burger_name", "devoured"
+    ], [
+        req.body.burger_name, req.body.devoured
+    ], function(result) {
+        //send back the ID of the new burger
+        res.json({ id: result.insertId });
+    });
+});
