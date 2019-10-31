@@ -92,5 +92,5 @@ var orm = {
     }
 };
 
-// Export orm object for cat.js (model)
+// Export orm object for burger.js (model)
 module.exports = orm;
