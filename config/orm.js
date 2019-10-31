@@ -42,6 +42,24 @@ var orm = {
                 throw err;
             }
             cb(result);
-        })
+        });
+    },
+    create: function(table, cols, vals, cb) {
+        qString = `INSERT INTO ${table}`;
+        qString += ` (`;
+        qString += cols.toString();
+        qString += `) `;
+        qString += `VALUES (`;
+        qString += questionMark(vals.length);
+        qString += `) `;
+
+        console.log(qString);
+
+        connection.query(qString, vals, function(err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        });
     }
 }
